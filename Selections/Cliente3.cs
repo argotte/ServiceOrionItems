@@ -12,13 +12,9 @@ namespace ServiceOrion
     public class Cliente3
     {
         public Cliente3(){ }
-        public string GetClient(string id, QueryCustomerInClient client)
+        public Response GetClient(string id, QueryCustomerInClient client)
         {//
              CustomerByElementsQueryMessage_sync request1 = new CustomerByElementsQueryMessage_sync();
-             string rspst = "";
-            //  string rspst1 = "";
-            string asdasdasd;
-             string rspst2 = "";
              try
              {
                 request1.CustomerSelectionByElements = new CustomerSelectionByElements();
@@ -28,16 +24,28 @@ namespace ServiceOrion
                 request1.CustomerSelectionByElements.SelectionByInternalID[0].IntervalBoundaryTypeCode = "1";
                 request1.CustomerSelectionByElements.SelectionByInternalID[0].LowerBoundaryInternalID = id; 
                 var response = client.FindByElements(request1);
-                rspst = response.Customer[0].AddressInformation[0].Address.FormattedAddress.FormattedAddress.FirstLineDescription;//212 Lunch
-                return rspst;
+                var customer = response.Customer[0];//AddressInformation[0].Address.FormattedAddress.FormattedAddress.FirstLineDescription;//212 Lunch
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = new ClienteModel 
+                    { 
+                        Name= customer.AddressInformation[0].Address.FormattedAddress.FormattedAddress.FirstLineDescription
+                    }
+                };
              }
              catch (Exception ex)
              {
-                return rspst = ex.Message;
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
              }
         }
 
-        public string GetAllClient() { return "no"; }
+        public string GetAllClient() 
+        { return "aun no"; }
     }
 }
 

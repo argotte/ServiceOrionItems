@@ -11,18 +11,12 @@ namespace ServiceOrion
 {
    public class Proveedor2
     {
-
-
         public Proveedor2()
         {
         }
-        public string GetClient(string id, QuerySupplierInClient proveedor)
+        public Response GetClient(string id, QuerySupplierInClient proveedor)
         {
-     
             SupplierByElementsQueryMessage_sync request = new SupplierByElementsQueryMessage_sync();
-            string rspst = "";
-            string rspst1 = "";
-            string rspst2 = "";
             try
             {
                 request.SupplierSelectionByElements = new SupplierByElementsQuerySelectionByElements();
@@ -31,19 +25,27 @@ namespace ServiceOrion
                 request.SupplierSelectionByElements.SelectionByInternalID[0].InclusionExclusionCode = "I";
                 request.SupplierSelectionByElements.SelectionByInternalID[0].IntervalBoundaryTypeCode = "1";
                 request.SupplierSelectionByElements.SelectionByInternalID[0].LowerBoundaryIdentifier = id;
-                string asdasdasdsaddddd;
-                asdasdasdsaddddd = "1";
                 var response = proveedor.FindByElements(request);
-              //  rspst = response.Supplier[0].FirstLineName;
-                return rspst;
+                var customer = response.Supplier[0].FirstLineName;
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = new ProveedorModel
+                    {
+                        Name = customer
+                    }
+                };
             }
             catch (Exception ex)
             {
-
-                return rspst = ex.Message;
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
             }
-
-
         }
+
+        
     }
 }

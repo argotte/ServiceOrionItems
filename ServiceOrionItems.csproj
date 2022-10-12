@@ -46,6 +46,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Calls.cs" />
+    <Compile Include="Models\MaterialModel.cs" />
+    <Compile Include="Models\ProveedorModel.cs" />
+    <Compile Include="Models\ClienteModel.cs" />
+    <Compile Include="Response.cs" />
     <Compile Include="Selections\Cliente3.cs" />
     <Compile Include="Connected Services\Clientes\Reference.cs">
       <AutoGen>True</AutoGen>
