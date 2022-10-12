@@ -18,10 +18,8 @@ namespace ServiceOrion
     {
         string answer;
         string id;
-        int numero;
-        public Calls(int _numero, string _id)
+        public Calls(string _id)
         {
-            numero = _numero;
             id = _id;
         }
 
