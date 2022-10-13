@@ -46,6 +46,42 @@ namespace ServiceOrion
             }
         }
 
+        public List<Response> GetClient(QuerySupplierInClient proveedor) 
+        {
+            List<Response> listaresponse = new List<Response>();
+            SupplierByElementsQueryMessage_sync request = new SupplierByElementsQueryMessage_sync();
+            try
+            {
+                request.SupplierSelectionByElements = new SupplierByElementsQuerySelectionByElements();
+                request.SupplierSelectionByElements.SelectionByInternalID = new SelectionByIdentifier[1];
+                request.SupplierSelectionByElements.SelectionByInternalID[0] = new SelectionByIdentifier();
+                request.SupplierSelectionByElements.SelectionByInternalID[0].InclusionExclusionCode = "I";
+                request.SupplierSelectionByElements.SelectionByInternalID[0].IntervalBoundaryTypeCode = "1";
+                request.SupplierSelectionByElements.SelectionByInternalID[0].LowerBoundaryIdentifier = "*";
+                var response = proveedor.FindByElements(request);
+                foreach (var item in response.Supplier)
+                {
+                    listaresponse.Add(new Response
+                    {
+                        IsSuccess = true,
+                        Result = new ProveedorModel
+                        {
+                            Name = item.FirstLineName
+                        }
+                    });
+                }
+                return listaresponse;
+            }
+            catch (Exception ex)
+            {
+                listaresponse.Add(new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                });
+                return listaresponse;
+            }
+        }
         
     }
 }

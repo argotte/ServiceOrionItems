@@ -16,14 +16,18 @@ namespace ServiceOrion
 {
     public class Calls
     {
-        string answer;
         string id;
-        public Calls(string _id)
+        public Calls(string _id) //Constructor que lleva de parametro un id. Este se invoca cuando quieras uno en especifico por su id.
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             id = _id;
         }
+        public Calls()//Constructor sin parametro. Este se invoca cuando quieras traer una lista de todos
+        { 
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12; 
+        } 
 
-        public MaterialModel ObtenerMaterial()
+        public MaterialModel ObtenerMaterial() //por id
         {
            QueryMaterialInClient material = new QueryMaterialInClient();
            material.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["UserTenant"];
@@ -31,15 +35,31 @@ namespace ServiceOrion
            Item1 material1 = new Item1();
            Response response = material1.GetClient(id, material);
             MaterialModel materialModel = new MaterialModel
-            {
+            {//Name = "RESMAS DE HOJAS BLANCAS"
                 Name = ((MaterialModel)response.Result).Name
             };
             return materialModel;
         }
-
-        public ClienteModel ObtenerRespuesta()
+        public List<MaterialModel> ObtenerListaMaterial() //Lista de todos
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            QueryMaterialInClient material = new QueryMaterialInClient();
+            material.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["UserTenant"];
+            material.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["PasswordTenant"];
+            Item1 material1 = new Item1();
+            List<Response> response = material1.GetClient(material);
+            List<MaterialModel> materialModels = new List<MaterialModel>();
+            foreach (var item in response)
+            {
+                materialModels.Add(new MaterialModel
+                {
+                    Name = ((MaterialModel)item.Result).Name
+                });
+            }
+            return materialModels;
+        }
+
+        public ClienteModel ObtenerCliente()
+        {
             QueryCustomerInClient client = new QueryCustomerInClient();
             client.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["UserTenant"];
             client.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["PasswordTenant"];
@@ -50,6 +70,25 @@ namespace ServiceOrion
                 Name = ((ClienteModel)response.Result).Name
             };
             return clienteModel;
+        }
+
+        public List<ClienteModel> ObtenerListaCliente() 
+        {          
+            QueryCustomerInClient client = new QueryCustomerInClient();
+            client.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["UserTenant"];
+            client.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["PasswordTenant"];
+            Cliente3 cliente = new Cliente3();
+            List<Response> response= cliente.GetClient(client);
+            List<ClienteModel> clienteModel = new List<ClienteModel>();//((ServiceOrion.ClienteModel)(new System.Collections.Generic.Mscorlib_CollectionDebugView<ServiceOrion.Response>(response).Items[0]).Result).Name
+            foreach (var item in response)
+            {
+                clienteModel.Add(new ClienteModel
+                {
+                    Name = ((ClienteModel)item.Result).Name
+                });
+            }
+            return clienteModel;
+
         }
 
         public ProveedorModel ObtenerProveedor()
@@ -64,6 +103,25 @@ namespace ServiceOrion
                 Name = ((ProveedorModel)response.Result).Name
             };
             return proveedorModel;
+        }
+
+        public List<ProveedorModel> ObtenerListaProveedor() 
+        {
+            QuerySupplierInClient proveedor = new QuerySupplierInClient();
+            proveedor.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["UserTenant"];
+            proveedor.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["PasswordTenant"];
+            Proveedor2 provider = new Proveedor2();
+            List<Response> response= provider.GetClient(proveedor);
+            List<ProveedorModel> proveedorModels = new List<ProveedorModel>();//((ServiceOrion.ClienteModel)(new System.Collections.Generic.Mscorlib_CollectionDebugView<ServiceOrion.Response>(response).Items[0]).Result).Name
+            foreach (var item in response)
+            {
+                proveedorModels.Add(new ProveedorModel
+                {
+                    Name = ((ProveedorModel)item.Result).Name
+                });
+            }
+            return proveedorModels;
+
         }
 
 
