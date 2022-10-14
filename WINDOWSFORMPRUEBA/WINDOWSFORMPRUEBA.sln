@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32901.82
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceOrionItems", "ServiceOrionItems.csproj", "{76422597-3227-405D-AE4A-A6B4B61410F9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WINDOWSFORMPRUEBA", "..\WINDOWSFORMPRUEBA\WINDOWSFORMPRUEBA.csproj", "{31834337-195B-4E14-A12D-9192993DF8FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WINDOWSFORMPRUEBA", "WINDOWSFORMPRUEBA.csproj", "{31834337-195B-4E14-A12D-9192993DF8FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{76422597-3227-405D-AE4A-A6B4B61410F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76422597-3227-405D-AE4A-A6B4B61410F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76422597-3227-405D-AE4A-A6B4B61410F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76422597-3227-405D-AE4A-A6B4B61410F9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{31834337-195B-4E14-A12D-9192993DF8FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{31834337-195B-4E14-A12D-9192993DF8FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31834337-195B-4E14-A12D-9192993DF8FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -26,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3DD774CB-1220-49DA-9FDB-5CAA0453CB99}
+		SolutionGuid = {A0FA1996-78DB-4C1B-8F1C-C262CE895D37}
 	EndGlobalSection
 EndGlobal
