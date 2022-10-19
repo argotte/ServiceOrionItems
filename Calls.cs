@@ -1,7 +1,9 @@
 ﻿using ServiceOrion.Clientes;
 using ServiceOrion.Item;
+using ServiceOrion.ManageSalesPriceListIn;
 using ServiceOrion.Models;
 using ServiceOrion.Proveedores;
+using ServiceOrion.Selections;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -112,6 +114,7 @@ namespace ServiceOrion
             proveedor.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["PasswordTenant"];
             Proveedor2 provider = new Proveedor2();
             List<Response> response= provider.GetClient(proveedor);
+
             List<ProveedorModel> proveedorModels = new List<ProveedorModel>();//((ServiceOrion.ClienteModel)(new System.Collections.Generic.Mscorlib_CollectionDebugView<ServiceOrion.Response>(response).Items[0]).Result).Name
             foreach (var item in response)
             {
@@ -122,6 +125,24 @@ namespace ServiceOrion
             }
             return proveedorModels;
 
+        }
+
+        public List<ListaPreciosModel> ObtenerListaPrecios()
+        {//XOLOPASS CLAUSURA 2018
+            ManageSalesPriceListInClient listaprecio = new ManageSalesPriceListInClient();
+            listaprecio.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["UserTenant"];
+            listaprecio.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["PasswordTenant"];
+            ListaPrecios4 pricelist = new ListaPrecios4();
+            List<Response> response = pricelist.GetClient(id,listaprecio);
+            List<ListaPreciosModel> listaPreciosModels = new List<ListaPreciosModel>();
+            foreach (var item in response)
+            {
+                listaPreciosModels.Add(new ListaPreciosModel
+                {
+                    Name = ((ListaPreciosModel)item.Result).Name
+                });
+            }
+            return listaPreciosModels;
         }
 
 
