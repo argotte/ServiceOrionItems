@@ -3,6 +3,7 @@ using ServiceOrion.Item;
 using ServiceOrion.ManageSalesPriceListIn;
 using ServiceOrion.Models;
 using ServiceOrion.Proveedores;
+using ServiceOrion.QueryCustomerInvoice;
 using ServiceOrion.Selections;
 using System;
 using System.Collections.Generic;
@@ -25,17 +26,17 @@ namespace ServiceOrion
             id = _id;
         }
         public Calls()//Constructor sin parametro. Este se invoca cuando quieras traer una lista de todos
-        { 
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12; 
-        } 
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+        }
 
         public MaterialModel ObtenerMaterial() //por id
         {
-           QueryMaterialInClient material = new QueryMaterialInClient();
-           material.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["UserTenant"];
-           material.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["PasswordTenant"];
-           Item1 material1 = new Item1();
-           Response response = material1.GetClient(id, material);
+            QueryMaterialInClient material = new QueryMaterialInClient();
+            material.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["UserTenant"];
+            material.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["PasswordTenant"];
+            Item1 material1 = new Item1();
+            Response response = material1.GetClient(id, material);
             MaterialModel materialModel = new MaterialModel
             {//Name = "RESMAS DE HOJAS BLANCAS"
                 Name = ((MaterialModel)response.Result).Name
@@ -74,13 +75,13 @@ namespace ServiceOrion
             return clienteModel;
         }
 
-        public List<ClienteModel> ObtenerListaCliente() 
-        {          
+        public List<ClienteModel> ObtenerListaCliente()
+        {
             QueryCustomerInClient client = new QueryCustomerInClient();
             client.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["UserTenant"];
             client.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["PasswordTenant"];
             Cliente3 cliente = new Cliente3();
-            List<Response> response= cliente.GetClient(client);
+            List<Response> response = cliente.GetClient(client);
             List<ClienteModel> clienteModel = new List<ClienteModel>();//((ServiceOrion.ClienteModel)(new System.Collections.Generic.Mscorlib_CollectionDebugView<ServiceOrion.Response>(response).Items[0]).Result).Name
             foreach (var item in response)
             {
@@ -107,13 +108,13 @@ namespace ServiceOrion
             return proveedorModel;
         }
 
-        public List<ProveedorModel> ObtenerListaProveedor() 
+        public List<ProveedorModel> ObtenerListaProveedor()
         {
             QuerySupplierInClient proveedor = new QuerySupplierInClient();
             proveedor.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["UserTenant"];
             proveedor.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["PasswordTenant"];
             Proveedor2 provider = new Proveedor2();
-            List<Response> response= provider.GetClient(proveedor);
+            List<Response> response = provider.GetClient(proveedor);
 
             List<ProveedorModel> proveedorModels = new List<ProveedorModel>();//((ServiceOrion.ClienteModel)(new System.Collections.Generic.Mscorlib_CollectionDebugView<ServiceOrion.Response>(response).Items[0]).Result).Name
             foreach (var item in response)
@@ -133,7 +134,7 @@ namespace ServiceOrion
             listaprecio.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["UserTenant"];
             listaprecio.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["PasswordTenant"];
             ListaPrecios4 pricelist = new ListaPrecios4();
-            List<Response> response = pricelist.GetClient(id,listaprecio);
+            List<Response> response = pricelist.GetClient(id, listaprecio);
             List<ListaPreciosModel> listaPreciosModels = new List<ListaPreciosModel>();
             foreach (var item in response)
             {
@@ -143,6 +144,19 @@ namespace ServiceOrion
                 });
             }
             return listaPreciosModels;
+        }
+        public QueryCustomerInvoiceModel ObtenerQueryCustomerInvoice() 
+        {
+            QueryCustomerInvoiceInClient querycustomer = new QueryCustomerInvoiceInClient();
+            querycustomer.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["UserTenant"];
+            querycustomer.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["PasswordTenant"];
+            QCustomerInvoice qCustomer = new QCustomerInvoice();
+            Response response = qCustomer.GetClient(id, querycustomer);
+            QueryCustomerInvoiceModel queryCustomerInvoiceModel = new QueryCustomerInvoiceModel
+            {
+                Name = ((QueryCustomerInvoiceModel)response.Result).Name
+            };
+            return queryCustomerInvoiceModel;
         }
 
 

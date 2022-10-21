@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace ServiceOrion.Selections
 {
-    class ListaPrecios4
+    public class ListaPrecios4
     {
         public ListaPrecios4()  {}
-
         public List<Response> GetClient(string id,ManageSalesPriceListInClient listaprecio) 
         {
             List<Response> listaresponse = new List<Response>();
