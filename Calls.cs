@@ -4,6 +4,7 @@ using ServiceOrion.ManageSalesPriceListIn;
 using ServiceOrion.Models;
 using ServiceOrion.Proveedores;
 using ServiceOrion.QueryCustomerInvoice;
+using ServiceOrion.QueryExchangeRate;
 using ServiceOrion.Selections;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace ServiceOrion
     public class Calls
     {
         string id;
+        string aux1, aux2;
         public Calls(string _id) //Constructor que lleva de parametro un id. Este se invoca cuando quieras uno en especifico por su id.
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -29,7 +31,12 @@ namespace ServiceOrion
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
-
+        public Calls(string _aux1, string _aux2) 
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            aux1 = _aux1;
+            aux2 = _aux2;
+        }
         public MaterialModel ObtenerMaterial() //por id
         {
             QueryMaterialInClient material = new QueryMaterialInClient();
@@ -157,6 +164,20 @@ namespace ServiceOrion
                 Name = ((QueryCustomerInvoiceModel)response.Result).Name
             };
             return queryCustomerInvoiceModel;
+        }
+
+        public QueryExchangeRateModel ObtenerTasaCambio() 
+        {
+            QueryExchangeRateIn_V1Client queryExchange = new QueryExchangeRateIn_V1Client();
+            queryExchange.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["UserTenant"];
+            queryExchange.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["PasswordTenant"];
+            QExchangeRate qExchange = new QExchangeRate();
+            Response response = qExchange.GetClient(aux1, aux2, queryExchange);
+            QueryExchangeRateModel queryExchangeRateModel = new QueryExchangeRateModel
+            {
+                Quantity = ((QueryExchangeRateModel)response.Result).Quantity
+            };
+            return queryExchangeRateModel;
         }
 
 

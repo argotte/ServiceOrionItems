@@ -56,11 +56,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\QueryExchangeRate\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Models\ListaPreciosModel.cs" />
     <Compile Include="Models\MaterialModel.cs" />
     <Compile Include="Models\ProveedorModel.cs" />
     <Compile Include="Models\ClienteModel.cs" />
     <Compile Include="Models\QueryCustomerInvoiceModel.cs" />
+    <Compile Include="Models\QueryExchangeRateModel.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="Selections\3Cliente.cs" />
     <Compile Include="Connected Services\Clientes\Reference.cs">
@@ -88,6 +94,7 @@
     <Compile Include="Selections\4ListaPrecios.cs" />
     <Compile Include="Selections\2Proveedor.cs" />
     <Compile Include="Selections\5QueryCInvoice.cs" />
+    <Compile Include="Selections\6QueryExchangeRate.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -141,6 +148,13 @@
     <None Include="Connected Services\QueryCustomerInvoice\ServiceOrion.QueryCustomerInvoice.FindByElementsResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\QueryExchangeRate\QueryExchangeRateIn_V1.wsdl" />
+    <None Include="Connected Services\QueryExchangeRate\ServiceOrion.QueryExchangeRate.ExchangeRateByElementsResponseMessage_sync.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\QueryExchangeRate\ServiceOrion.QueryExchangeRate.FindByElementsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\SocioNegocioNumeroTelefonico\ServiceOrion.SocioNegocioNumeroTelefonico.CallingBusinessPartner.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -158,6 +172,7 @@
     <WCFMetadataStorage Include="Connected Services\ManageSalesPriceListIn\" />
     <WCFMetadataStorage Include="Connected Services\Proveedores\" />
     <WCFMetadataStorage Include="Connected Services\QueryCustomerInvoice\" />
+    <WCFMetadataStorage Include="Connected Services\QueryExchangeRate\" />
     <WCFMetadataStorage Include="Connected Services\SocioNegocioNumeroTelefonico\" />
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +243,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\QueryCustomerInvoice\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\QueryExchangeRate\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\QueryExchangeRate\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\QueryExchangeRate\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
