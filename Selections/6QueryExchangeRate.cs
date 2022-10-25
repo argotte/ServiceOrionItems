@@ -19,7 +19,8 @@ namespace ServiceOrion.Selections
         //2022-07-10T23:59:59.9999999Z
         public  Response GetClient(string exchange1, string exchange2, QueryExchangeRateIn_V1Client queryExchange)
         {
-            DateTime date = DateTime.Parse("2020-08-20T15:00:00Z");
+            //  DateTime date = DateTime.Parse("2020-08-20T15:00:00Z");
+            DateTime date = DateTime.Now;
 
             ExchangeRateByElementsQueryMessage_sync request = new ExchangeRateByElementsQueryMessage_sync();
             try
@@ -41,6 +42,7 @@ namespace ServiceOrion.Selections
                 request.ExchangeRateSelectionByElements.SelectionByValidFromDateTime[0] = new GLOBAL_SelectionByDateTime();
                 request.ExchangeRateSelectionByElements.SelectionByValidFromDateTime[0].InclusionExclusionCode = "I";
                 request.ExchangeRateSelectionByElements.SelectionByValidFromDateTime[0].IntervalBoundaryTypeCode = "9";
+                request.ExchangeRateSelectionByElements.SelectionByValidFromDateTime[0].LowerBoundaryDateTimeSpecified = true;
                 request.ExchangeRateSelectionByElements.SelectionByValidFromDateTime[0].LowerBoundaryDateTime = date;
 
 
@@ -48,6 +50,7 @@ namespace ServiceOrion.Selections
                 request.ExchangeRateSelectionByElements.SelectionByValidToDateTime[0] = new GLOBAL_SelectionByDateTime();
                 request.ExchangeRateSelectionByElements.SelectionByValidToDateTime[0].InclusionExclusionCode = "I";
                 request.ExchangeRateSelectionByElements.SelectionByValidToDateTime[0].IntervalBoundaryTypeCode = "7";
+                request.ExchangeRateSelectionByElements.SelectionByValidToDateTime[0].LowerBoundaryDateTimeSpecified = true;
                 request.ExchangeRateSelectionByElements.SelectionByValidToDateTime[0].LowerBoundaryDateTime = date;
 
                 request.ProcessingConditions = new QueryProcessingConditions();
@@ -73,7 +76,11 @@ namespace ServiceOrion.Selections
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = ex.Message,
+                    Result = new QueryExchangeRateModel
+                    {
+                        Quantity = 0
+                    }
                 };
             }
 

@@ -176,8 +176,10 @@ namespace ServiceOrion
             QueryExchangeRateModel queryExchangeRateModel = new QueryExchangeRateModel
             {
                 Quantity = ((QueryExchangeRateModel)response.Result).Quantity
-            };
-            return queryExchangeRateModel;
+
+            }; return queryExchangeRateModel;
+
+
         }
 
 
