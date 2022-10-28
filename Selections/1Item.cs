@@ -31,7 +31,11 @@ namespace ServiceOrion
                     IsSuccess = true,
                     Result = new MaterialModel
                     {
-                        Name = customer.Description[0].Description.Value
+                        InventoryValuationMeasureUnitCode = customer.InventoryValuationMeasureUnitCode,
+                        InternalID = customer.InternalID.Value,
+                        Description = (customer.Description[0].Description.Value != null) ? customer.Description[0].Description.Value : null,
+                        ProductCategoryID = customer.ProductCategoryID,
+                        IdentifiedStockTypeCode = (customer.IdentifiedStockTypeCode != null) ? customer.IdentifiedStockTypeCode.Value : null
                     }
                 };
             }
@@ -56,6 +60,10 @@ namespace ServiceOrion
                 request.MaterialSelectionByElements.SelectionByInternalID[0].InclusionExclusionCode = "I";
                 request.MaterialSelectionByElements.SelectionByInternalID[0].IntervalBoundaryTypeCode = "1";
                 request.MaterialSelectionByElements.SelectionByInternalID[0].LowerBoundaryInternalID = new ProductInternalID { Value = "*" };
+               // request.ProcessingConditions = new Item.QueryProcessingConditions();
+               //request.ProcessingConditions.QueryHitsMaximumNumberValue = 999999;
+               // request.ProcessingConditions.QueryHitsMaximumNumberValueSpecified = true;
+               // request.ProcessingConditions.QueryHitsUnlimitedIndicator = false;
                 var response = material.FindByElements(request); //Me devuelve la infinidad de Customer. Customer[0],[1],... etc etc etc
                 foreach (var item in response.Material)
                 {
@@ -64,7 +72,11 @@ namespace ServiceOrion
                         IsSuccess = true,
                         Result = new MaterialModel
                         {
-                            Name = item.Description[0].Description.Value
+                            InventoryValuationMeasureUnitCode = item.InventoryValuationMeasureUnitCode,
+                            InternalID = item.InternalID.Value,
+                            Description = (item.Description[0].Description.Value != null) ? item.Description[0].Description.Value : null,
+                            ProductCategoryID = item.ProductCategoryID,
+                            IdentifiedStockTypeCode = (item.IdentifiedStockTypeCode != null) ? item.IdentifiedStockTypeCode.Value : null
                         }
                     });
                 }

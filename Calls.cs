@@ -46,7 +46,11 @@ namespace ServiceOrion
             Response response = material1.GetClient(id, material);
             MaterialModel materialModel = new MaterialModel
             {//Name = "RESMAS DE HOJAS BLANCAS"
-                Name = ((MaterialModel)response.Result).Name
+                InventoryValuationMeasureUnitCode = ((MaterialModel)response.Result).InventoryValuationMeasureUnitCode,
+                InternalID = ((MaterialModel)response.Result).InternalID,
+                Description = ((MaterialModel)response.Result).Description,
+                ProductCategoryID = ((MaterialModel)response.Result).ProductCategoryID,
+                IdentifiedStockTypeCode = ((MaterialModel)response.Result).IdentifiedStockTypeCode,
             };
             return materialModel;
         }
@@ -62,7 +66,11 @@ namespace ServiceOrion
             {
                 materialModels.Add(new MaterialModel
                 {
-                    Name = ((MaterialModel)item.Result).Name
+                    InventoryValuationMeasureUnitCode = ((MaterialModel)item.Result).InventoryValuationMeasureUnitCode,
+                    InternalID = ((MaterialModel)item.Result).InternalID,
+                    Description = ((MaterialModel)item.Result).Description,
+                    ProductCategoryID = ((MaterialModel)item.Result).ProductCategoryID,
+                    IdentifiedStockTypeCode = ((MaterialModel)item.Result).IdentifiedStockTypeCode,
                 });
             }
             return materialModels;
