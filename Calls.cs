@@ -85,7 +85,20 @@ namespace ServiceOrion
             Response response = cliente.GetClient(id, client);
             ClienteModel clienteModel = new ClienteModel
             {
-                Name = ((ClienteModel)response.Result).Name
+                FirstLineName = ((ClienteModel)response.Result).FirstLineName,
+                SecondLineName=((ClienteModel)response.Result).SecondLineName,
+                FormattedAddress=((ClienteModel)response.Result).FormattedAddress,
+                CompanyID=((ClienteModel)response.Result).CompanyID,
+                PartyTax=((ClienteModel)response.Result).PartyTax,
+                EmailURI =((ClienteModel)response.Result).EmailURI,
+                InternalID = ((ClienteModel)response.Result).InternalID,
+                CityName= ((ClienteModel)response.Result).CityName,
+                StreetPostalCode = ((ClienteModel)response.Result).StreetPostalCode,
+                CountryCode= ((ClienteModel)response.Result).CountryCode,
+                StreetName = ((ClienteModel)response.Result).StreetName,
+                HouseID = ((ClienteModel)response.Result).HouseID,
+                strUUID = ((ClienteModel)response.Result).strUUID,
+                Empleado = ((ClienteModel)response.Result).Empleado
             };
             return clienteModel;
         }
@@ -102,7 +115,20 @@ namespace ServiceOrion
             {
                 clienteModel.Add(new ClienteModel
                 {
-                    Name = ((ClienteModel)item.Result).Name
+                    FirstLineName = ((ClienteModel)item.Result).FirstLineName,
+                    SecondLineName = ((ClienteModel)item.Result).SecondLineName,
+                    FormattedAddress = ((ClienteModel)item.Result).FormattedAddress,
+                    CompanyID = ((ClienteModel)item.Result).CompanyID,
+                    PartyTax = ((ClienteModel)item.Result).PartyTax,
+                    EmailURI = ((ClienteModel)item.Result).EmailURI,
+                    InternalID = ((ClienteModel)item.Result).InternalID,
+                    CityName = ((ClienteModel)item.Result).CityName,
+                    StreetPostalCode = ((ClienteModel)item.Result).StreetPostalCode,
+                    CountryCode = ((ClienteModel)item.Result).CountryCode,
+                    StreetName = ((ClienteModel)item.Result).StreetName,
+                    HouseID = ((ClienteModel)item.Result).HouseID,
+                    strUUID = ((ClienteModel)item.Result).strUUID,
+                    Empleado = ((ClienteModel)item.Result).Empleado
                 });
             }
             return clienteModel;
@@ -155,7 +181,9 @@ namespace ServiceOrion
             {
                 listaPreciosModels.Add(new ListaPreciosModel
                 {
-                    Name = ((ListaPreciosModel)item.Result).Name
+                    Name = ((ListaPreciosModel)item.Result).Name,
+                    TypeCode=((ListaPreciosModel)item.Result).TypeCode,
+                    CurrencyCode=((ListaPreciosModel)item.Result).CurrencyCode
                 });
             }
             return listaPreciosModels;

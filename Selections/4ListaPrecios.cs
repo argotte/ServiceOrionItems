@@ -29,7 +29,10 @@ namespace ServiceOrion.Selections
                         IsSuccess = true,
                         Result = new ListaPreciosModel
                         {
-                            Name = item.ID.Value
+                            Name = item.ID.Value,
+                            TypeCode=item.TypeCode.Value,
+                            CurrencyCode=item.CurrencyCode
+                           
                         }
                     });
                 }
