@@ -22,6 +22,7 @@ namespace ServiceOrion
     {
         string id;
         string aux1, aux2;
+        string LastIDd;
         public Calls(string _id) //Constructor que lleva de parametro un id. Este se invoca cuando quieras uno en especifico por su id.
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -36,6 +37,11 @@ namespace ServiceOrion
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             aux1 = _aux1;
             aux2 = _aux2;
+        }
+        public Calls(ref string LastID)
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            LastIDd = LastID;
         }
         public MaterialModel ObtenerMaterial() //por id
         {
@@ -109,7 +115,11 @@ namespace ServiceOrion
             client.ClientCredentials.UserName.UserName = ConfigurationManager.AppSettings["UserTenant"];
             client.ClientCredentials.UserName.Password = ConfigurationManager.AppSettings["PasswordTenant"];
             Cliente3 cliente = new Cliente3();
-            List<Response> response = cliente.GetClient(client);
+           
+            List<Response> response = cliente.GetClient(client,ref LastIDd);
+            
+            //al salir lastId tendra el valor del ultimo ID, entonces al volver a hacer el llamado seguira buscando desde el
+            //ultimo adquirido!!
             List<ClienteModel> clienteModel = new List<ClienteModel>();//((ServiceOrion.ClienteModel)(new System.Collections.Generic.Mscorlib_CollectionDebugView<ServiceOrion.Response>(response).Items[0]).Result).Name
             foreach (var item in response)
             {

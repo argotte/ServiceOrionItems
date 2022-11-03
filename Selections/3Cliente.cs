@@ -58,7 +58,7 @@ namespace ServiceOrion
              }
         }
 
-        public List<Response> GetClient(QueryCustomerInClient client) 
+        public List<Response> GetClient(QueryCustomerInClient client,ref string LastID) 
         {
             List<Response> listaresponse = new List<Response>();
             CustomerByElementsQueryMessage_sync request1 = new CustomerByElementsQueryMessage_sync();
@@ -70,7 +70,20 @@ namespace ServiceOrion
                 request1.CustomerSelectionByElements.SelectionByInternalID[0].InclusionExclusionCode = "I";
                 request1.CustomerSelectionByElements.SelectionByInternalID[0].IntervalBoundaryTypeCode = "1";
                 request1.CustomerSelectionByElements.SelectionByInternalID[0].LowerBoundaryInternalID = "*";
+
+                //    int maxValue = request1.ProcessingConditions.QueryHitsMaximumNumberValue;
+                request1.ProcessingConditions = new Clientes.QueryProcessingConditions();
+                request1.ProcessingConditions.LastReturnedObjectID = new Clientes.ObjectID();
+                //  request1.ProcessingConditions.LastReturnedObjectID.Value = LastID;
+                //    int countValue = 0;
+                //   int countTotal = 0;
+                //string LastID = String.Empty;
+
+            //    request1.ProcessingConditions.QueryHitsUnlimitedIndicator = true;
+            //   int fly = request1.ProcessingConditions.QueryHitsMaximumNumberValue;
+                //     request1.Mat
                 var response = client.FindByElements(request1); //Me devuelve la infinidad de Customer. Customer[0],[1],... etc etc etc
+                
                 foreach (var item in response.Customer)
                 {
              
@@ -94,9 +107,12 @@ namespace ServiceOrion
                             HouseID = (item.AddressInformation[0].Address.PostalAddress.HouseID != null) ? item.AddressInformation[0].Address.PostalAddress.HouseID : null,
                             strUUID = (item.AddressInformation[0].UUID != null) ? item.AddressInformation[0].UUID.Value : null,
                             Empleado = (item.DirectResponsibility != null) ? item.DirectResponsibility[0].EmployeeID.Value : null
+
                         }
-                    });; 
+                    });;
+                    LastID = response.ProcessingConditions.LastReturnedObjectID.Value;
                 }
+                LastID = response.ProcessingConditions.LastReturnedObjectID.Value;
                 return listaresponse;
             }
             catch (Exception ex) 
@@ -108,6 +124,8 @@ namespace ServiceOrion
                 });
                 return listaresponse;
             }
+
+
         }
     }
 }
