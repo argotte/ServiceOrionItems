@@ -13,7 +13,6 @@ namespace WINDOWSFORMPRUEBA
 {
     public partial class Form1 : Form
     {
-       public string LastID;
         public Form1()
         {
             InitializeComponent();
@@ -47,11 +46,11 @@ namespace WINDOWSFORMPRUEBA
         private void button3_Click(object sender, EventArgs e)
         {//proveedor
             id = "1001885";
-            Calls call = new Calls(id);
-            var response = call.ObtenerCliente().FirstLineName;
+      //      Calls call = new Calls(id);
+         //   var response = call.ObtenerCliente().FirstLineName;
          //   MessageBox.Show(response);
 
-            Calls call1 = new Calls(ref LastID);
+            Calls call1 = new Calls();
             var response1 = call1.ObtenerListaCliente();
         }
 

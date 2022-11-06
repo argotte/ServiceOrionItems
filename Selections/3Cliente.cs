@@ -58,61 +58,187 @@ namespace ServiceOrion
              }
         }
 
-        public List<Response> GetClient(QueryCustomerInClient client,ref string LastID) 
+        public List<Response> GetClient(QueryCustomerInClient client) 
         {
+            string LastID = "";
             List<Response> listaresponse = new List<Response>();
+            List<CustomerReponseCustomer> lista = new List<CustomerReponseCustomer>();
             CustomerByElementsQueryMessage_sync request1 = new CustomerByElementsQueryMessage_sync();
             try
             {
-                request1.CustomerSelectionByElements = new CustomerSelectionByElements();
-                request1.CustomerSelectionByElements.SelectionByInternalID = new CustomerSelectionByInternalID[1];
-                request1.CustomerSelectionByElements.SelectionByInternalID[0] = new CustomerSelectionByInternalID();
-                request1.CustomerSelectionByElements.SelectionByInternalID[0].InclusionExclusionCode = "I";
-                request1.CustomerSelectionByElements.SelectionByInternalID[0].IntervalBoundaryTypeCode = "1";
-                request1.CustomerSelectionByElements.SelectionByInternalID[0].LowerBoundaryInternalID = "*";
+                    request1.CustomerSelectionByElements = new CustomerSelectionByElements();
+                    request1.CustomerSelectionByElements.SelectionByInternalID = new CustomerSelectionByInternalID[1];
+                    request1.CustomerSelectionByElements.SelectionByInternalID[0] = new CustomerSelectionByInternalID();
+                    request1.CustomerSelectionByElements.SelectionByInternalID[0].InclusionExclusionCode = "I";
+                    request1.CustomerSelectionByElements.SelectionByInternalID[0].IntervalBoundaryTypeCode = "1";
+                    request1.CustomerSelectionByElements.SelectionByInternalID[0].LowerBoundaryInternalID = "*";
 
-                //    int maxValue = request1.ProcessingConditions.QueryHitsMaximumNumberValue;
-                request1.ProcessingConditions = new Clientes.QueryProcessingConditions();
-                request1.ProcessingConditions.LastReturnedObjectID = new Clientes.ObjectID();
-                //  request1.ProcessingConditions.LastReturnedObjectID.Value = LastID;
-                //    int countValue = 0;
-                //   int countTotal = 0;
-                //string LastID = String.Empty;
-
-            //    request1.ProcessingConditions.QueryHitsUnlimitedIndicator = true;
-            //   int fly = request1.ProcessingConditions.QueryHitsMaximumNumberValue;
-                //     request1.Mat
-                var response = client.FindByElements(request1); //Me devuelve la infinidad de Customer. Customer[0],[1],... etc etc etc
-                
-                foreach (var item in response.Customer)
+                    request1.ProcessingConditions = new Clientes.QueryProcessingConditions();
+                    request1.ProcessingConditions.LastReturnedObjectID = new Clientes.ObjectID();
+                    request1.ProcessingConditions.LastReturnedObjectID.Value = LastID;
+                    var response = client.FindByElements(request1); //Me devuelve la infinidad de Customer. Customer[0],[1],... etc etc etc
+                do
                 {
-             
+                    request1.ProcessingConditions.LastReturnedObjectID.Value = LastID;
+                    response = client.FindByElements(request1);
+                    if (response.Customer != null) 
+                    {
+                        foreach (var item in response.Customer)
+                        {
+                            lista.Add(item);
+                        }
+                        LastID = response.ProcessingConditions.LastReturnedObjectID.Value;
+                    }
+                } while (response.Customer != null);
+
+
+
+
+
+                foreach (var item in lista)
+                {
+                    bool primero, segundo, segundo1, tercero, cuarto, quinto, sexto, septimo, octavo, noveno, decimo, decimoprimero, decimosegundo, decimotercero, decimocuarto;
+                    primero = segundo = segundo1 = tercero = cuarto = quinto = sexto = septimo = octavo = noveno = decimo = decimoprimero = decimosegundo = decimotercero = decimocuarto = false;
+                    if (item.AddressInformation != null) 
+                    { 
+                        if(item.AddressInformation[0].Address != null) 
+                        {
+                            if(item.AddressInformation[0].Address.FormattedAddress != null)
+                            {
+                                if (item.AddressInformation[0].Address.FormattedAddress.FormattedAddress != null)
+                                {
+                                    if (item.AddressInformation[0].Address.FormattedAddress.FormattedAddress.FirstLineDescription != null)
+                                    {
+                                        primero = true;
+                                    }
+                                }
+
+                                if (item.AddressInformation[0].Address.FormattedAddress.FormattedAddressDescription != null)
+                                {
+                                    tercero = true;
+                                }
+                            }
+
+                            if (item.AddressInformation[0].Address.EmailURI != null)
+                            {
+                                if (item.AddressInformation[0].Address.EmailURI.Value != null)
+                                {
+                                    sexto = true;
+                                }
+                            }
+
+
+                            if (item.AddressInformation[0].Address.PostalAddress != null)
+                            {
+                                if (item.AddressInformation[0].Address.PostalAddress.CityName != null)
+                                {
+                                    octavo = true;
+                                }
+
+                                if (item.AddressInformation[0].Address.PostalAddress.StreetPostalCode != null)
+                                {
+                                    noveno = true;
+                                }
+
+                                if (item.AddressInformation[0].Address.PostalAddress.CountryCode != null)
+                                {
+                                    decimo = true;
+                                }
+
+                                if (item.AddressInformation[0].Address.PostalAddress.StreetName != null)
+                                {
+                                    decimoprimero = true;
+                                }
+
+                                if (item.AddressInformation[0].Address.PostalAddress.HouseID != null)
+                                {
+                                    decimosegundo = true;
+                                }
+                            }
+                        }
+
+                        if (item.AddressInformation[0].UUID != null)
+                        {
+                            if (item.AddressInformation[0].UUID.Value != null)
+                            {
+                                decimotercero = true;
+                            }     
+                        }
+                    }
+
+                    if (item.Person != null)
+                    {
+                        if (item.Person.FamilyName != null)
+                        {
+                            segundo = true;
+                        }
+                        if (item.Person.GivenName != null)
+                        {
+                            segundo1 = true;
+                        }
+                        if (segundo == true && segundo1 == false)
+                        {
+                            segundo = false;
+                        }
+                    }
+                    if (item.PaymentData != null)
+                    {
+                        if (item.PaymentData[0].CompanyID !=null)
+                        {
+                            cuarto = true;
+                        }
+
+                    }
+                    if (item.TaxNumber !=null)
+                    {
+                        if (item.TaxNumber[0].PartyTaxID != null) 
+                        {
+                            if (item.TaxNumber[0].PartyTaxID.Value != null)
+                            {
+                                quinto = true;
+                            }
+                        }
+                    }
+                    if (item.InternalID !=null)
+                    {
+                        septimo = true;
+                    }
+
+                    if (item.DirectResponsibility != null)
+                    {
+                        if (item.DirectResponsibility[0].EmployeeID != null)
+                        {
+                            if (item.DirectResponsibility[0].EmployeeID.Value != null)
+                            {
+                                decimocuarto = true;
+                            }
+                        }
+                    }
+
+
                     listaresponse.Add(new Response
                     {
                         IsSuccess = true,
                         Result = new ClienteModel
                         {
                          
-                            FirstLineName = (item.AddressInformation[0].Address.FormattedAddress.FormattedAddress.FirstLineDescription != null) ? item.AddressInformation[0].Address.FormattedAddress.FormattedAddress.FirstLineDescription : null,
-                            SecondLineName = (item.Person != null) ? item.Person.FamilyName : null,
-                            FormattedAddress = (item.PaymentData[0] != null) ? item.PaymentData[0].CompanyID : null,
-                            CompanyID = (item.PaymentData[0] != null) ? item.PaymentData[0].CompanyID : null,
-                            PartyTax = (item.TaxNumber[0] != null) ? item.TaxNumber[0].PartyTaxID.Value : null,
-                            EmailURI = (item.AddressInformation[0].Address.EmailURI != null) ? item.AddressInformation[0].Address.EmailURI.Value : null,
-                            InternalID = item.InternalID,
-                            CityName = (item.AddressInformation[0].Address.PostalAddress.CityName != null) ? item.AddressInformation[0].Address.PostalAddress.CityName : null,
-                            StreetPostalCode = (item.AddressInformation[0].Address.PostalAddress.StreetPostalCode != null) ? item.AddressInformation[0].Address.PostalAddress.StreetPostalCode : null,
-                            CountryCode = (item.AddressInformation[0].Address.PostalAddress.CountryCode != null) ? item.AddressInformation[0].Address.PostalAddress.CountryCode : null,
-                            StreetName = (item.AddressInformation[0].Address.PostalAddress.StreetName != null) ? item.AddressInformation[0].Address.PostalAddress.StreetName : null,
-                            HouseID = (item.AddressInformation[0].Address.PostalAddress.HouseID != null) ? item.AddressInformation[0].Address.PostalAddress.HouseID : null,
-                            strUUID = (item.AddressInformation[0].UUID != null) ? item.AddressInformation[0].UUID.Value : null,
-                            Empleado = (item.DirectResponsibility != null) ? item.DirectResponsibility[0].EmployeeID.Value : null
-
-                        }
+                            FirstLineName = (primero == true) ? item.AddressInformation[0].Address.FormattedAddress.FormattedAddress.FirstLineDescription : null,
+                            SecondLineName = (segundo == true) ? item.Person.GivenName+" "+item.Person.FamilyName : null,
+                            FormattedAddress = (tercero == true) ? item.AddressInformation[0].Address.FormattedAddress.FormattedAddressDescription : null,
+                            CompanyID = (cuarto == true) ? item.PaymentData[0].CompanyID : null,
+                            PartyTax = (quinto == true) ? item.TaxNumber[0].PartyTaxID.Value : null,
+                            EmailURI = (sexto == true) ? item.AddressInformation[0].Address.EmailURI.Value : null,
+                            InternalID = (septimo == true)?item.InternalID:null,
+                            CityName = (octavo == true) ? item.AddressInformation[0].Address.PostalAddress.CityName : null,
+                            StreetPostalCode = (noveno == true) ? item.AddressInformation[0].Address.PostalAddress.StreetPostalCode : null,
+                            CountryCode = (decimo == true) ? item.AddressInformation[0].Address.PostalAddress.CountryCode : null,
+                            StreetName = (decimoprimero == true) ? item.AddressInformation[0].Address.PostalAddress.StreetName : null,
+                            HouseID = (decimosegundo == true) ? item.AddressInformation[0].Address.PostalAddress.HouseID : null,
+                            strUUID = (decimotercero == true) ? item.AddressInformation[0].UUID.Value : null,
+                            Empleado = (decimocuarto == true) ? item.DirectResponsibility[0].EmployeeID.Value : null
+                            }
                     });;
-                    LastID = response.ProcessingConditions.LastReturnedObjectID.Value;
                 }
-                LastID = response.ProcessingConditions.LastReturnedObjectID.Value;
                 return listaresponse;
             }
             catch (Exception ex) 
@@ -130,61 +256,3 @@ namespace ServiceOrion
     }
 }
 
-//if (response.Customer != null)
-//{
-//    foreach (SincrDatosDyD.QueryCustomersByD.CustomerReponseCustomer customer in response.Customer)
-//    {
-
-//        string FirstLineName = "";
-//        string SecondLineName = "";
-//        //string EmailURI = "";
-//        string FormattedAddress = "";
-//        string CompanyID = "";
-//        string PartyTaxID = "";
-//        if (customer.Person != null)   // cliente natural
-//        {
-//            FirstLineName = (customer.Person.GivenName + " " + customer.Person.FamilyName);
-//        }
-//        else
-//        {
-//            FirstLineName = customer.Organisation.FirstLineName + " " + customer.Organisation.SecondLineName;   // cliente corporativo
-//        }
-
-//        strName = FirstLineName;
-
-//        if (customer.AddressInformation[0].Address != null)
-//        {
-//            EmailURI = customer.AddressInformation[0].Address.EmailURI.Value;
-//        }
-//        if (customer.PaymentData != null)
-//        {
-//            FormattedAddress = customer.PaymentData[0].CompanyID;
-//            CompanyID = (customer.PaymentData[0].CompanyID);
-//        }
-//        if (customer.TaxNumber != null)
-//        {
-//            PartyTaxID = customer.TaxNumber[0].PartyTaxID.Value;
-//        }
-
-//        string InternalID = (customer.InternalID);
-
-//        string CityName = customer.AddressInformation[0].Address.PostalAddress.CityName;
-//        string StreetPostalCode = customer.AddressInformation[0].Address.PostalAddress.StreetPostalCode;
-//        string CountryCode = customer.AddressInformation[0].Address.PostalAddress.CountryCode;
-//        string StreetName = customer.AddressInformation[0].Address.PostalAddress.StreetName;
-//        string HouseID = customer.AddressInformation[0].Address.PostalAddress.HouseID;
-
-//        strUUID = customer.AddressInformation[0].UUID.Value;
-
-//        if (customer.DirectResponsibility[0] != null)
-//        {
-//            Empleado = customer.DirectResponsibility[0].EmployeeID.Value;
-//        }
-
-
-//        return true; //dataList.Add(customer.InternalID + ", " + customer.Organisation.FirstLineName + "; ");
-//    }
-//}
-//else
-//{
-//    return false;
