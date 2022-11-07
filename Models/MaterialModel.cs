@@ -14,5 +14,4 @@ namespace ServiceOrion.Models
         public string ProductCategoryID { get; set; }
         public string IdentifiedStockTypeCode { get; set; }
     }//leer
-    //Aun no se qué caracteristicas deberia llevar cada modelo asi que les estoy dejando Name y ya por ahora
 }

@@ -44,12 +44,7 @@ namespace WINDOWSFORMPRUEBA
         }
 
         private void button3_Click(object sender, EventArgs e)
-        {//proveedor
-            id = "1001885";
-      //      Calls call = new Calls(id);
-         //   var response = call.ObtenerCliente().FirstLineName;
-         //   MessageBox.Show(response);
-
+        {//cliente
             Calls call1 = new Calls();
             var response1 = call1.ObtenerListaCliente();
         }

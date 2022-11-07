@@ -50,6 +50,8 @@ namespace ServiceOrion
         }
         public List<Response> GetClient(QueryMaterialInClient material)
         {
+            string LastID="";
+            List<MaterialByElementsResponseMaterial_sync> lista = new List<MaterialByElementsResponseMaterial_sync>();
             List<Response> listaresponse = new List<Response>();
             MaterialByElementsQueryMessage_sync request = new MaterialByElementsQueryMessage_sync();
             try
@@ -60,23 +62,71 @@ namespace ServiceOrion
                 request.MaterialSelectionByElements.SelectionByInternalID[0].InclusionExclusionCode = "I";
                 request.MaterialSelectionByElements.SelectionByInternalID[0].IntervalBoundaryTypeCode = "1";
                 request.MaterialSelectionByElements.SelectionByInternalID[0].LowerBoundaryInternalID = new ProductInternalID { Value = "*" };
-               // request.ProcessingConditions = new Item.QueryProcessingConditions();
-               //request.ProcessingConditions.QueryHitsMaximumNumberValue = 999999;
-               // request.ProcessingConditions.QueryHitsMaximumNumberValueSpecified = true;
-               // request.ProcessingConditions.QueryHitsUnlimitedIndicator = false;
+                request.ProcessingConditions = new Item.QueryProcessingConditions();
+                request.ProcessingConditions.LastReturnedObjectID = new Item.ObjectID();
+                request.ProcessingConditions.LastReturnedObjectID.Value = LastID;
+
                 var response = material.FindByElements(request); //Me devuelve la infinidad de Customer. Customer[0],[1],... etc etc etc
-                foreach (var item in response.Material)
+                do
                 {
+                    request.ProcessingConditions.LastReturnedObjectID.Value = LastID;
+                    response = material.FindByElements(request);
+                    if (response.Material != null)
+                    {
+                        foreach (var item in response.Material)
+                        {
+                            lista.Add(item);
+                        }
+                        LastID = response.ProcessingConditions.LastReturnedObjectID.Value;
+                    }
+
+                } while (response.Material != null);
+                foreach (var item in lista)
+                {
+                    bool primero, segundo, tercero, cuarto, quinto;
+                    primero = segundo = tercero = cuarto = quinto = false;
+                    if (item.InventoryValuationMeasureUnitCode != null)
+                    {
+                        primero = true;
+                    }
+                    if (item.InternalID != null)
+                    {
+                        if (item.InternalID.Value != null)
+                        {
+                            segundo = true;
+                        }
+                    }
+                    if (item.Description != null)
+                    {
+                        if (item.Description[0].Description != null)
+                        {
+                            if (item.Description[0].Description.Value != null)
+                            {
+                                tercero = true;
+                            }
+                        }
+                    }
+                    if (item.ProductCategoryID != null)
+                    {
+                        cuarto = true;
+                    }
+                    if (item.IdentifiedStockTypeCode != null)
+                    {
+                        if (item.IdentifiedStockTypeCode.Value != null)
+                        {
+                            quinto = true;
+                        }
+                    }
                     listaresponse.Add(new Response
                     {
                         IsSuccess = true,
                         Result = new MaterialModel
                         {
-                            InventoryValuationMeasureUnitCode = item.InventoryValuationMeasureUnitCode,
-                            InternalID = item.InternalID.Value,
-                            Description = (item.Description[0].Description.Value != null) ? item.Description[0].Description.Value : null,
-                            ProductCategoryID = item.ProductCategoryID,
-                            IdentifiedStockTypeCode = (item.IdentifiedStockTypeCode != null) ? item.IdentifiedStockTypeCode.Value : null
+                            InventoryValuationMeasureUnitCode = (primero==true)?item.InventoryValuationMeasureUnitCode:null,
+                            InternalID =(segundo==true)? item.InternalID.Value:null,
+                            Description = (tercero==true) ? item.Description[0].Description.Value : null,
+                            ProductCategoryID =(cuarto==true)? item.ProductCategoryID:null,
+                            IdentifiedStockTypeCode = (quinto==true) ? item.IdentifiedStockTypeCode.Value : null
                         }
                     });
                 }
