@@ -24,6 +24,7 @@ namespace ServiceOrion
                 request.MaterialSelectionByElements.SelectionByInternalID[0].InclusionExclusionCode = "I";
                 request.MaterialSelectionByElements.SelectionByInternalID[0].IntervalBoundaryTypeCode = "1";
                 request.MaterialSelectionByElements.SelectionByInternalID[0].LowerBoundaryInternalID = new ProductInternalID { Value = id };
+
                 var response = material.FindByElements(request);
                 var customer = response.Material[0];
                 return new Response
@@ -36,6 +37,7 @@ namespace ServiceOrion
                         Description = (customer.Description[0].Description.Value != null) ? customer.Description[0].Description.Value : null,
                         ProductCategoryID = customer.ProductCategoryID,
                         IdentifiedStockTypeCode = (customer.IdentifiedStockTypeCode != null) ? customer.IdentifiedStockTypeCode.Value : null
+                     //   SiteID = (customer.Logistics
                     }
                 };
             }
@@ -83,8 +85,8 @@ namespace ServiceOrion
                 } while (response.Material != null);
                 foreach (var item in lista)
                 {
-                    bool primero, segundo, tercero, cuarto, quinto;
-                    primero = segundo = tercero = cuarto = quinto = false;
+                    bool primero, segundo, tercero, cuarto, quinto,sexto;
+                    primero = segundo = tercero = cuarto = quinto= sexto = false;
                     if (item.InventoryValuationMeasureUnitCode != null)
                     {
                         primero = true;
@@ -117,18 +119,35 @@ namespace ServiceOrion
                             quinto = true;
                         }
                     }
-                    listaresponse.Add(new Response
+                    if (item.Logistics !=null)
                     {
-                        IsSuccess = true,
-                        Result = new MaterialModel
+                        if (item.Logistics[0].SiteID != null)
                         {
-                            InventoryValuationMeasureUnitCode = (primero==true)?item.InventoryValuationMeasureUnitCode:null,
-                            InternalID =(segundo==true)? item.InternalID.Value:null,
-                            Description = (tercero==true) ? item.Description[0].Description.Value : null,
-                            ProductCategoryID =(cuarto==true)? item.ProductCategoryID:null,
-                            IdentifiedStockTypeCode = (quinto==true) ? item.IdentifiedStockTypeCode.Value : null
+                            if (item.Logistics[0].SiteID.Value != null)
+                            {
+                                if (item.Logistics[0].SiteID.Value == "SPOSA21")
+                                {
+                                    sexto = true;
+                                }
+                            }
                         }
-                    });
+                    }
+                    if (sexto==true)
+                    {
+                        listaresponse.Add(new Response
+                        {
+                            IsSuccess = true,
+                            Result = new MaterialModel
+                            {
+                                InventoryValuationMeasureUnitCode = (primero == true) ? item.InventoryValuationMeasureUnitCode : null,
+                                InternalID = (segundo == true) ? item.InternalID.Value : null,
+                                Description = (tercero == true) ? item.Description[0].Description.Value : null,
+                                ProductCategoryID = (cuarto == true) ? item.ProductCategoryID : null,
+                                IdentifiedStockTypeCode = (quinto == true) ? item.IdentifiedStockTypeCode.Value : null,
+                                SiteID = (sexto == true) ? item.Logistics[0].SiteID.Value : null
+                            }
+                        });
+                    }
                 }
                 return listaresponse;
             }
